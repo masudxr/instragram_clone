@@ -1,0 +1,140 @@
+body {
+  background: #bdc3c7; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #2c3e50,
+    #bdc3c7
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #2c3e50,
+    #bdc3c7
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.form {
+  background-color: white;
+  border-radius: 5px;
+  width: 550px;
+  margin: 20px auto;
+  padding: 20px;
+  /* height: 600px; */
+}
+
+.form-body {
+  text-align: left;
+  padding: 20px 10px;
+}
+
+.form-body > * {
+  padding: 5px;
+}
+
+.form__label {
+  width: 40%;
+}
+
+.form_input {
+  width: 60%;
+}
+
+.footer {
+  text-align: center;
+}
+
+#components-layout-demo-top-side .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.ant-row-rtl #components-layout-demo-top-side .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* background-color: #333; */
+  /* background-color: rgb(59, 59, 70); */
+}
+
+li {
+  float: left;
+  display: inline;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 80px;
+  text-decoration: none;
+  background-color: rgb(59, 59, 70);
+  /* background-color: #333; */
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04aa6d;
+}
+.user {
+  float: right;
+}
+
+.pic {
+  position: relative;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  min-width: 10px;
+  border: 1px solid rgba(78, 62, 62, 0.125);
+  border-radius: 0.25rem;
+  background-color: #6b6666;
+  margin-left: 200px;
+  margin-right: 200px;
+  color: #bdc3c7;
+}
+/* .pic img {
+  /* height: 300px; */
+/* display: block; */
+/* margin-left: auto; */
+/* margin-right: auto; */
+/* width: 30%; */
+/* } */
+*/ * {
+  box-sizing: border-box;
+}
+.row {
+  display: flex;
+}
+/* Create three equal columns that sits next to each other */
+.column {
+  flex: 33.33%;
+  padding: 5px;
+  float: left;
+}
+.container {
+  display: inline-block;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+p {
+  text-align: center;
+}
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
