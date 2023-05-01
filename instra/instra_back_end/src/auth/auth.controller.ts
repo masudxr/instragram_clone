@@ -8,6 +8,7 @@ import {
   UnauthorizedException,
   NotFoundException,
   UseGuards,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserAuthGuard } from './auth.user.guard';
@@ -18,6 +19,7 @@ export class AuthController {
 
   @Post('login')
   async userLogin(@Body() req) {
+    console.log('req from frontend', req)
     const user = await this._authService.userLogin(req);
     console.log('user token:', user);
     if (!user) {
@@ -33,6 +35,7 @@ export class AuthController {
     if (!user) {
       throw new NotFoundException();
     }
+
     return user;
   }
   @Get()

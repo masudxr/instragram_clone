@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { comparePasswords } from 'src/passwordEncryption/bcrypt';
 import { Photo } from 'src/photos/entities/photo.entity';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
@@ -20,15 +21,13 @@ export class AuthService {
     private _userService: UsersService,
   ) {}
   async userLogin(user: any) {
-    console.log('login User:', user);
     if (!user.name || !user.password) {
       throw new UnauthorizedException();
     }
     const userDB = await this._userService.findOneByName(user.name);
-    console.log('userDB:', userDB);
     if (userDB) {
-      // const matched = comparePasswords(user.password, userDB.password);
-      if (user.password == userDB.password) {
+      const matched = comparePasswords(user.password, userDB.password);
+      if (matched) {
         const payload = { username: userDB.name, sub: userDB.id };
         return {
           access_token: this._jwtService.sign(payload),

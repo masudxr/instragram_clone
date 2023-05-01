@@ -48,7 +48,7 @@ function Home() {
             <p>{photo.like}  {"Likes"}</p>
             <p>Caption: {photo.description}</p>
             {/* <p>User: {photo.user.id}</p> */}
-            {/* <Link to="/user">User: {photo.user.name}</Link> */}
+            <Link to="/user">User: {photo.user.name}</Link>
           </div>
         ))}
         </ul>

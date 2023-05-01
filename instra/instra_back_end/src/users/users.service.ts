@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 // import { encodePassword } from 'src/passwordEncryption/bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { encodePassword } from 'src/passwordEncryption/bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -14,10 +15,10 @@ export class UsersService {
     private _jwtService: JwtService,
   ) {}
   async create(userDetails: CreateUserDto) {
-    // const password = encodePassword(userDetails.password);
+    const password = encodePassword(userDetails.password);
     const newUser = this._userRepository.create({
       ...userDetails,
-      // password,
+      password,
     });
     const admin = await this._userRepository.save(newUser);
     const obj = {

@@ -55,7 +55,7 @@ function RegistrationForm() {
         // console.log('response:', res);
         const data = await res.json();
         console.log('data:', data);
-        navigate("/login");
+        navigate("/");
     }
     return (
         <div className="container">

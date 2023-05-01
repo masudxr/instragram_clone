@@ -9,7 +9,6 @@ export default function LoginForm() {
     const navigate = useNavigate();
     const [userName, setUserName] = useState(null);
     const [password, setPassword] = useState(null);
-    const [compare, setCompare] = useState(null);
 
     useEffect(() => {
         handleSubmit();
@@ -28,29 +27,25 @@ export default function LoginForm() {
     async function handleSubmit() {
         console.log('UserName: ', userName)
         console.log('Password: ', password)
-
-        const response = await fetch("http://localhost:3000/users")
-        const json = await response.json();
-        setCompare(json);
-        compareUser();
-    }
-    function compareUser() {
-        console.log('start comparing')
-        console.log('compare', compare);
-
-        const array = compare;
-        console.log('array', array);
-        for (let i = 0; i < 100; i++) {
-            if (userName === array[i].name) {
-                if (password === array[i].password) {
-                    console.log('Login Successfull!!');
-                    navigate("/home");
-                } else {
-                    console.log('Invalid User Name and Password!')
-                }
-            }
+        const json = {
+            name: userName,
+            password: password
         }
+        const res = await fetch("http://localhost:3000/auth/login", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(json),
+        })
+        const jsonData = await res.json()
+        console.log('json Token', jsonData)
+
+        // if(jsonData.statusCode == 404) {
+        //     alert('No Records Existed!!')
+        // } else {
+        //     navigate('/home')
+        // }
     }
+
     return (
         <div className="container">
         <div className="form">

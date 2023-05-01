@@ -66,16 +66,19 @@ export class ProfileController {
   async update(
     @UploadedFile() file: Express.Multer.File,
     @Param('id') id: number,
+    @Req() req,
   ) {
-    console.log('new uploaded file name:', file.filename);
-    const obj = {
-      name: file.filename,
-    };
-    const fun = await this._profileService.update(+id, obj);
-    if (fun) {
-      console.log('updated DB Successfully!');
-      return file;
-    }
+    console.log('new uploaded id name:', id);
+    console.log('new uploaded file  req.body:', req.body);
+
+    // const obj = {
+    //   name: req.body.name,
+    // };
+    // const fun = await this._profileService.update(+id, obj);
+    // if (fun) {
+    //   console.log('updated DB Successfully!');
+    //   return file;
+    // }
   }
   // join profile and user column
   // @Post('list')
