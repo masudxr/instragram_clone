@@ -1,25 +1,36 @@
 import React, {useEffect, useState} from "react";
 import NavBar from './NavBar';
-import { Link } from "react-router-dom";
 
 const User = () => {
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [photos, setPhotos] = useState([]);
 
+  const cookie = document.cookie;
+  console.log('cokkei', cookie)
+  // const split = cookie.split('.')
+  // console.log('split ', split);
+
   useEffect(() => {
-    getProfile();
+    // getProfile();
     getUploads();
 }, [])
-const UserId = 9;
 
-  async function getProfile() {
-    const response = await fetch(`http://localhost:3000/users/${UserId}`)
-    const json = await response.json();
-    console.log('json', json);
-    setUsers(json);
-  }
+  // async function getProfile() {
+  //   const response = await fetch(`http://localhost:3000/auth/profile`, {
+  //     headers: ({
+  //       Authorization: 'Bearer ' +cookie
+  //     })
+  //   })
+  //   const json = await response.json();
+  //   console.log('json', json);
+  //   setUsers(json);
+  // }
   async function getUploads() {
-    const response = await fetch(`http://localhost:3000/photos/users/${UserId}`)
+    const response = await fetch(`http://localhost:3000/photos/users`, {
+      headers: ({
+        Authorization: 'Bearer ' +cookie
+      })
+    })
     const json = await response.json();
     console.log('user uploaded photos:', json);
     setPhotos(json);
@@ -28,19 +39,20 @@ const UserId = 9;
     <div className="container">
       <NavBar />
       <br/>
-      <h2>Welcome to {users.name}'s' Profile</h2>
-      <br/>
-      <div>
-      <ul>
+
+      {/* <h2>Welcome to {users.name}'s' Profile</h2> */}
+      {/* <br/> */}
+      {/* <div> */}
+      {/* <ul> */}
           {/* <h2>Name: {users.name}</h2> */}
-          <img src={`http://localhost:3000/profile/${users.pic}`} height= '300' width='300' alt='img' />
-          <Link to="/upload">Upload Profile </Link>
-          <h1>Email: {users.email}</h1>
-          <h1>Phone: {users.phone}</h1>
-      </ul>
-      </div>
-      <Link to="/bio">Update Info </Link>
-      <Link to="/post">New Post</Link>
+          {/* <img src={`http://localhost:3000/profile/${users.pic}`} height= '300' width='300' alt='img' /> */}
+          {/* <Link to="/upload">Upload Profile </Link> */}
+          {/* <h1>Email: {users.email}</h1> */}
+          {/* <h1>Phone: {users.phone}</h1> */}
+      {/* </ul> */}
+      {/* </div> */}
+      {/* <Link to="/bio">Update Info </Link> */}
+      {/* <Link to="/post">New Post</Link> */}
       <br/>
       <div>
         <h1>Uploaded Users All Photos !!</h1>

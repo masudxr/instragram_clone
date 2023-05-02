@@ -36,14 +36,15 @@ export default function LoginForm() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(json),
         })
-        const jsonData = await res.json()
-        console.log('json Token', jsonData)
+        console.log('response:', res);
+        const token = await res.json()
+        console.log('json Token', token)
 
-        // if(jsonData.statusCode == 404) {
-        //     alert('No Records Existed!!')
-        // } else {
-        //     navigate('/home')
-        // }
+        if(token.token) {
+            navigate('/')
+        } else {
+            alert('No Records Existed!!')
+        }
     }
 
     return (

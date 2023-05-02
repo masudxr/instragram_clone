@@ -41,10 +41,14 @@ export class AuthService {
   }
   async reqUser(req: any) {
     const bearer = req.header('authorization');
+    console.log('first bearer', bearer);
     bearer.replace('Bearer ', '');
+    console.log('2nd bearer', bearer);
+
     const parts = bearer.split(' ');
     if (parts.length === 2) {
       const token = parts[1];
+
       try {
         const ver = await this._jwtService.verifyAsync(token, {
           secret: 'SECRET',

@@ -5,7 +5,7 @@ import {  Link } from "react-router-dom";
 
 
 
-function Home() {
+const Home = () => {
     const [photos, setPhotos] = useState([]);
 
     useEffect(() => {
@@ -35,6 +35,9 @@ function Home() {
     return (
       <div className="container">
           <NavBar />
+          <br />
+          {/* {/* <h2>Hello {props.name} Welcome To Instra</h2> */}
+          {/* {props}  */}
           <h1>Users Uploaded Photos </h1>
       <div className='row'>
         {photos.length > 0 && (

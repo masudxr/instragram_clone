@@ -70,13 +70,16 @@ export class PhotosController {
     throw new BadRequestException();
   }
 
-  @Get('users/:id')
-  // @UseGuards(UserAuthGuard)
-  async findAll(@Param('id') id: number) {
-    // const user = await this._photosService.reqUser(req);
+  @Get('user')
+  @UseGuards(UserAuthGuard)
+  async findAll(@Req() req) {
+    console.log('hello !!');
+    console.log('request photos', req.headers.authorization);
+    const user = await this._photosService.reqUser(req);
+    console.log('user Photos ', user);
     // if (user) {
-    const userPhoto = await this._photosService.findAll(id);
-    return userPhoto;
+    //   const userPhoto = await this._photosService.findAll(id);
+    //   return userPhoto;
     // }
   }
 
