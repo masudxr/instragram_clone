@@ -52,7 +52,7 @@ export class UsersService {
         id: id,
       },
     });
-    console.log('users:', admin);
+    // console.log('users:', admin);
     if (!admin) {
       return null;
     }

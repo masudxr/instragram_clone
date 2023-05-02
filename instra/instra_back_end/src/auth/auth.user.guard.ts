@@ -17,13 +17,10 @@ export class UserAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<any> {
     const request = context.switchToHttp().getRequest();
     const bearer = request.header('authorization');
-    console.log('bearer user guard', bearer);
-
     bearer.replace('Bearer ', '');
     const parts = bearer.split(' ');
     if (parts.length === 2) {
       const token = parts[1];
-      console.log('token user guard', token);
       try {
         const ver = await this._jwtService.verifyAsync(token, {
           secret: 'SECRET',
@@ -31,7 +28,8 @@ export class UserAuthGuard implements CanActivate {
         console.log('verification', ver);
         const user = await this._userService.findOne(ver.sub);
         if (user.name == ver.username) {
-          return user;
+          console.log('hello guard !!')
+          return true;
         }
       } catch (error) {
         throw new HttpException(

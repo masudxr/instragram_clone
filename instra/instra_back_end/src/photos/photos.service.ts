@@ -101,7 +101,7 @@ export class PhotosService {
     await this._photoRepository.delete(id);
   }
 
-  async reqUser(req: any) {
+  async reqUser(req: any):Promise<any> {
     const bearer = req.header('authorization');
     bearer.replace('Bearer ', '');
     const parts = bearer.split(' ');

@@ -57,30 +57,30 @@ export class PhotosController {
     // throw new BadRequestException();
   }
 
-  @Get(':picName')
+  // @Get(':picName')
+  // @UseGuards(UserAuthGuard)
+  // async proPicture(@Param('picName') picName: string, @Req() req, @Res() res) {
+  //   console.log('pic name:', picName);
+  //   console.log('Hello Masud!!')
+  //   const user = await this._photosService.reqUser(req);
+  //   const photo = await this._photosService.findOneByName(picName);
+  //   console.log('photo:', photo);
+  //   if (user && photo) {
+  //     return of(res.sendFile(join(process.cwd(), 'uploads/' + picName)));
+  //   }
+  //   throw new BadRequestException();
+  // }
   @UseGuards(UserAuthGuard)
-  async proPicture(@Param('picName') picName: string, @Req() req, @Res() res) {
-    console.log('pic name:', picName);
-    const user = await this._photosService.reqUser(req);
-    const photo = await this._photosService.findOneByName(picName);
-    console.log('photo:', photo);
-    if (user && photo) {
-      return of(res.sendFile(join(process.cwd(), 'uploads/' + picName)));
-    }
-    throw new BadRequestException();
-  }
-
   @Get('user')
-  @UseGuards(UserAuthGuard)
   async findAll(@Req() req) {
     console.log('hello !!');
     console.log('request photos', req.headers.authorization);
     const user = await this._photosService.reqUser(req);
-    console.log('user Photos ', user);
-    // if (user) {
-    //   const userPhoto = await this._photosService.findAll(id);
-    //   return userPhoto;
-    // }
+    console.log('user Photos ', user.id);
+    if (user) {
+      const userPhoto = await this._photosService.findAll(user.id);
+      return userPhoto;
+    }
   }
 
   @Put('increase/:id')
