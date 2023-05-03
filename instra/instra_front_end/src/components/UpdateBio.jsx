@@ -14,6 +14,9 @@ function UserBio() {
     let [password, setPassword] = useState(null);
     const [users, setUsers] = useState([]);
 
+  const cookie = document.cookie;
+
+
     useEffect(() => {
         getProfile();
     }, [])
@@ -37,14 +40,16 @@ function UserBio() {
             setAddress(value);
         }
     }
-    const USERID = 9;
     async function getProfile() {
-        const response = await fetch(`http://localhost:3000/users/${USERID}`)
-        const json = await response.json();
-        console.log('json', json);
-        console.log('User ID:', USERID)
-        setUsers(json);
-    }
+        const response = await fetch(`http://localhost:3000/auth/profile`, {
+          headers: ({
+            Authorization: 'Bearer ' +cookie
+          })
+        })
+        const userProfile = await response.json();
+        console.log('userProfile', userProfile);
+        setUsers(userProfile);
+      }
     async function handleSubmit() {
         console.log(userName)
         console.log(email)
@@ -73,9 +78,11 @@ function UserBio() {
             "address": address,
             "password": password,
         }
-        console.log('json:', jsonData)
+        console.log('Updated json:', jsonData)
+        console.log(users.id)
+        // console.log({{users.id}})
 
-       const res = await fetch(`http://localhost:3000/users/${USERID}`, {
+       const res = await fetch(`http://localhost:3000/users/${users.id}`, {
             method: 'PUT',
             headers: { 
                 'Content-Type': 'application/json' 

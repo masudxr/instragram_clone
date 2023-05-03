@@ -4,9 +4,11 @@ import './style.css';
 import {  Link } from "react-router-dom";
 
 
-
 const Home = () => {
     const [photos, setPhotos] = useState([]);
+    const [text, setText] = useState('like')
+
+    const cookie = document.cookie;
 
     useEffect(() => {
         getData();
@@ -17,16 +19,20 @@ const Home = () => {
         const json = await response.json();
         setPhotos(json);
     }
-    async function handleSubmit(id, liked) {
+    async function handleLike(id, liked) {
+      setText('liked');
+
        console.log('id:', id);
        console.log('liked:', liked);
 
       const jsonData = {
-        "like": liked+1,
+        "like": liked,
       }
       const res = await fetch(`http://localhost:3000/photos/${id}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: ({ 'Content-Type': 'application/json',
+            Authorization: 'Bearer ' +cookie
+           }),
             body: JSON.stringify(jsonData), 
         })
         const data = await res.json();
@@ -36,8 +42,6 @@ const Home = () => {
       <div className="container">
           <NavBar />
           <br />
-          {/* {/* <h2>Hello {props.name} Welcome To Instra</h2> */}
-          {/* {props}  */}
           <h1>Users Uploaded Photos </h1>
       <div className='row'>
         {photos.length > 0 && (
@@ -46,12 +50,12 @@ const Home = () => {
           <div className='column' key={photo.id}>
             <img src={`http://localhost:3000/${photo.name}`} height= '300' width='300' alt='img' />
             <div className="footer">
-                <button onClick={() => handleSubmit(photo.id, photo.like)} > Like </button>
+                <button onClick={() => handleLike(photo.id, photo.like)} > {text} </button>
             </div>
             <p>{photo.like}  {"Likes"}</p>
             <p>Caption: {photo.description}</p>
             {/* <p>User: {photo.user.id}</p> */}
-            <Link to="/user">User: {photo.user.name}</Link>
+            <Link to="/userProfile" state = {{name: photo.user.name}}>User: {photo.user.name}</Link>
           </div>
         ))}
         </ul>

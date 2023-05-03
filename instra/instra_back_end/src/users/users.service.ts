@@ -76,6 +76,16 @@ export class UsersService {
     });
     return admin;
   }
+
+  async findProfile(name: string) {
+    const admin = await this._userRepository.findOne({
+      relations: ['profile'],
+      where: {
+        name: name,
+      },
+    });
+    return admin;
+  }
   async update(id: number, updateUserDetails: UpdateUserDto) {
     const user = await this._userRepository.update(
       { id },

@@ -8,17 +8,17 @@ import {
   Req,
   UploadedFile,
   UseInterceptors,
-  Res,
+  // Res,
   UseGuards,
   Put,
-  BadRequestException,
+  // BadRequestException,
 } from '@nestjs/common';
 import { PhotosService } from './photos.service';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersService } from 'src/users/users.service';
-import { join } from 'path';
-import { of } from 'rxjs';
+// import { join } from 'path';
+// import { of } from 'rxjs';
 import { UserAuthGuard } from 'src/auth/auth.user.guard';
 import { UpdatePhotoDto } from './dto/update-photo.dto';
 
@@ -83,34 +83,42 @@ export class PhotosController {
     }
   }
 
-  @Put('increase/:id')
-  async increaseLike(@Param('id') id: number) {
-    console.log('id', id);
-    const photo = await this._photosService.findOne(id);
-    console.log('photo:', photo.id);
-    console.log('photo like:', photo.like);
-    const count = 1;
-    const newValue = photo.like + count;
-    console.log('updated like:', newValue);
-    const obj = {
-      like: newValue,
-    };
-    return await this._photosService.update(photo.id, obj);
+  @UseGuards(UserAuthGuard)
+  @Get('uploaded/:id')
+  async UsersUploadedPhotos(@Param('id') id: number) {
+    console.log('Hello Bondu!');
+    const userPhoto = await this._photosService.findAll(id);
+    return userPhoto;
   }
-  @Put('decrease/:id')
-  async decreaseLike(@Param('id') id: number) {
-    const photo = await this._photosService.findOne(id);
-    console.log('photo:', photo.id);
-    console.log('photo like:', photo.like);
-    const count = -1;
-    const newValue = photo.like + count;
-    console.log('updated like:', newValue);
-    photo.like = newValue;
-    const obj = {
-      like: newValue,
-    };
-    return await this._photosService.update(photo.id, obj);
-  }
+
+  // @Put('increase/:id')
+  // async increaseLike(@Param('id') id: number) {
+  //   console.log('id', id);
+  //   const photo = await this._photosService.findOne(id);
+  //   console.log('photo:', photo.id);
+  //   console.log('photo like:', photo.like);
+  //   const count = 1;
+  //   const newValue = photo.like + count;
+  //   console.log('updated like:', newValue);
+  //   const obj = {
+  //     like: newValue,
+  //   };
+  //   return await this._photosService.update(photo.id, obj);
+  // }
+  // @Put('decrease/:id')
+  // async decreaseLike(@Param('id') id: number) {
+  //   const photo = await this._photosService.findOne(id);
+  //   console.log('photo:', photo.id);
+  //   console.log('photo like:', photo.like);
+  //   const count = -1;
+  //   const newValue = photo.like + count;
+  //   console.log('updated like:', newValue);
+  //   photo.like = newValue;
+  //   const obj = {
+  //     like: newValue,
+  //   };
+  //   return await this._photosService.update(photo.id, obj);
+  // }
 
   @Delete(':picname')
   async remove(@Req() req, @Param('picname') picname: number) {
@@ -121,11 +129,18 @@ export class PhotosController {
       return await this._photosService.remove(photo.id);
     }
   }
+  // Handle Likes
+  @UseGuards(UserAuthGuard)
   @Put(':id')
   async update(
+    @Req() req,
     @Param('id') id: number,
     @Body() updatePhotoDto: UpdatePhotoDto,
   ) {
-    return await this._photosService.update(id, updatePhotoDto);
+    // console.log('update like');
+    // console.log('Update info', updatePhotoDto);
+    // console.log('get id from frontend:', id);
+    const user = await this._photosService.reqUser(req);
+    return await this._photosService.update(id, updatePhotoDto, user);
   }
 }

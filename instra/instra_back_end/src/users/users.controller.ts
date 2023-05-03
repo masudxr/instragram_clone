@@ -91,6 +91,15 @@ export class UsersController {
     return user;
   }
 
+  @Get('profile/:name')
+  async prfile(@Param('name') name: string) {
+    const user = await this._usersService.findProfile(name);
+    if (!user) {
+      throw new NotFoundException();
+    }
+    return user;
+  }
+
   // @UseGuards(UserAuthGuard)
   @Put(':id')
   async update(

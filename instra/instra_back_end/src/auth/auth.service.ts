@@ -79,7 +79,6 @@ export class AuthService {
         user: true,
       },
     });
-    console.log('length', photos.length);
     const len = photos.length - 1;
     const array = [];
     for (let i = len; i >= 0; i--) {
@@ -87,7 +86,6 @@ export class AuthService {
         array.push(photos[i]);
       }
     }
-    console.log('array length', array.length);
     return array;
     // const Arr = [];
     // for (let i = 0; i < array.length; i++) {

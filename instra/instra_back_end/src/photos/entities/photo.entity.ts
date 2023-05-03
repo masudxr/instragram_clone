@@ -5,6 +5,8 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   ManyToOne,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity({ name: 'photos' })
@@ -18,7 +20,7 @@ export class Photo {
   @Column({ nullable: false })
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   like: number;
 
   @CreateDateColumn()
@@ -26,4 +28,8 @@ export class Photo {
 
   @ManyToOne(() => User, (user) => user.photos)
   user: User;
+
+  @ManyToMany(() => User, (user) => user.photo)
+  @JoinTable()
+  users: User[];
 }

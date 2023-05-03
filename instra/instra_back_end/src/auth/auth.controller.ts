@@ -45,7 +45,6 @@ export class AuthController {
     if (!user) {
       throw new NotFoundException();
     }
-    user.password = undefined;
     return user;
   }
   // @Get('profile')

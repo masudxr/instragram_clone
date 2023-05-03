@@ -25,10 +25,9 @@ export class UserAuthGuard implements CanActivate {
         const ver = await this._jwtService.verifyAsync(token, {
           secret: 'SECRET',
         });
-        console.log('verification', ver);
         const user = await this._userService.findOne(ver.sub);
         if (user.name == ver.username) {
-          console.log('hello guard !!')
+          console.log('hello guard !!');
           return true;
         }
       } catch (error) {

@@ -81,27 +81,49 @@ export class PhotosService {
       },
     });
   }
-  async findOneByName(id: string) {
+  async findOneByName(name: string) {
     return await this._photoRepository.findOne({
       where: {
-        name: id,
+        name: name,
       },
     });
   }
 
-  async update(id: number, updatePhotoDto: UpdatePhotoDto) {
-    const profile = await this._photoRepository.update(
-      { id },
-      { ...updatePhotoDto },
-    );
-    console.log('update profile:', profile);
+  async update(id: number, updatePhotoDto: UpdatePhotoDto, user: any) {
+    const photo = await this._photoRepository.findOne({
+      relations: ['users'],
+      where: {
+        id: id,
+      },
+    });
+    const Array = photo.users;
+    const len = photo.users.length;
+    if (len > 0) {
+      for (let i = 0; i < len; i++) {
+        if (Array[i].name == user.name) {
+          photo.users = photo.users.filter((users) => {
+            user.name != users.name;
+          });
+          photo.like = photo.like - 1;
+          await this._photoRepository.save(photo);
+        } else {
+          photo.like = photo.like + 1;
+          photo.users.push(user);
+          await this._photoRepository.save(photo);
+        }
+      }
+    } else {
+      photo.like = photo.like + 1;
+      photo.users.push(user);
+      await this._photoRepository.save(photo);
+    }
   }
 
   async remove(id: number) {
     await this._photoRepository.delete(id);
   }
 
-  async reqUser(req: any):Promise<any> {
+  async reqUser(req: any): Promise<any> {
     const bearer = req.header('authorization');
     bearer.replace('Bearer ', '');
     const parts = bearer.split(' ');
