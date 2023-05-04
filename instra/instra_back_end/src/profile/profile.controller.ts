@@ -68,17 +68,21 @@ export class ProfileController {
     @Param('id') id: number,
     @Req() req,
   ) {
+    console.log('Hello Profile Photos Welcome for Uploding!');
     console.log('new uploaded id name:', id);
-    console.log('new uploaded file  req.body:', req.body);
+    console.log('new uploaded file req.body:', req.file);
+    // console.log('new uploaded file req.body:', req.body);
 
-    // const obj = {
-    //   name: req.body.name,
-    // };
-    // const fun = await this._profileService.update(+id, obj);
-    // if (fun) {
-    //   console.log('updated DB Successfully!');
-    //   return file;
-    // }
+    const obj = {
+      name: req.file.filename,
+    };
+    console.log('final dto', obj);
+
+    const fun = await this._profileService.update(+id, obj);
+    if (fun) {
+      console.log('updated DB Successfully!');
+      return file;
+    }
   }
   // join profile and user column
   // @Post('list')

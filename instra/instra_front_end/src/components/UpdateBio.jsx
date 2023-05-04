@@ -84,9 +84,10 @@ function UserBio() {
 
        const res = await fetch(`http://localhost:3000/users/${users.id}`, {
             method: 'PUT',
-            headers: { 
+            headers: ({
+                Authorization: 'Bearer ' +cookie,
                 'Content-Type': 'application/json' 
-            },
+              }),
             body: JSON.stringify(jsonData),
         })
         const data = await res.json();

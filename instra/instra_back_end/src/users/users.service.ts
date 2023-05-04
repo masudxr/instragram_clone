@@ -52,7 +52,7 @@ export class UsersService {
         id: id,
       },
     });
-    // console.log('users:', admin);
+    console.log('users:', admin);
     if (!admin) {
       return null;
     }
@@ -64,6 +64,7 @@ export class UsersService {
       pic: admin.profile.name,
       address: admin.address,
       password: admin.password,
+      picID: admin.profile.id,
     };
     return obj;
   }

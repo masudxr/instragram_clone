@@ -100,17 +100,11 @@ export class UsersController {
     return user;
   }
 
-  // @UseGuards(UserAuthGuard)
+  @UseGuards(UserAuthGuard)
   @Put(':id')
-  async update(
-    // @Req() req,
-    @Param('id') id: number,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    // const checkUser = await this._usersService.reqUser(req, id);
-    // if (checkUser) {
+  async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    console.log('Update bio');
     return await this._usersService.update(id, updateUserDto);
-    // }
   }
 
   @Delete(':id')
