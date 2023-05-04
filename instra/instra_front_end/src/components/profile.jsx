@@ -21,7 +21,6 @@ const User = () => {
       })
     })
     const json = await response.json();
-    console.log('json', json);
     setUsers(json);
   }
   async function getUploads() {
@@ -31,8 +30,6 @@ const User = () => {
       })
     })
     const json = await response.json();
-    // console.log('user uploaded photos:', json);
-    // console.log('user uploaded photos:', json[0]);
     setPhotos(json);
   }
   return (

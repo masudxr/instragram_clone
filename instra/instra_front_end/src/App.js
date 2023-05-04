@@ -26,7 +26,6 @@ export default function App() {
         <Route path="/upload" element={<UploadProfile />} />
         <Route path="/updateBio" element={<UserBio />} />
         <Route path="/post" element={<FileUpload />} />
-        {/* <Route path="/multipost" element={<FileUploadPage />} /> */}
       </Routes>
       </Router>
       

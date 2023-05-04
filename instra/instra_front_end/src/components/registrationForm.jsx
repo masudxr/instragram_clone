@@ -45,16 +45,12 @@ function RegistrationForm() {
             "address": address,
             "password": password,
         }
-        console.log('json:', jsonData)
 
-        const res = await fetch("http://localhost:3000/users", {
+        await fetch("http://localhost:3000/users", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(jsonData),
         })
-        // console.log('response:', res);
-        const data = await res.json();
-        console.log('data:', data);
         navigate("/login");
     }
     return (

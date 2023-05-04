@@ -21,22 +21,17 @@ async function getProfile() {
       })
     })
     const userProfile = await response.json();
-    console.log('userProfile', userProfile);
     setUsers(userProfile);
   }
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         if (id === "description") {
-            console.log('get 2nd id', id);
             setDescrption(value);
         }
     }
 
     async function uploadFile() {
-        console.log('photoName: ', photo)
-        console.log('photo: ', description)
-        console.log('user name: ', users.name)
         const formdata = new FormData ();
         formdata.append('file', photo, photo.name);
         formdata.append('body', description)
@@ -49,7 +44,6 @@ async function getProfile() {
             Authorization: 'Bearer ' +cookie
         })
         });
-        console.log('response', res.data);
         navigate("/user");
     }
 

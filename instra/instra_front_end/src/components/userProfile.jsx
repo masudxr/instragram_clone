@@ -11,8 +11,6 @@ const UsersProfile = () => {
 const location = useLocation()
 const Name = location.state.name
 
- console.log('name', Name);
-
   useEffect(() => {
     getProfile();
 }, [])
@@ -24,12 +22,10 @@ useEffect(() => {
   async function getProfile() {
     const response = await fetch(`http://localhost:3000/users/profile/${Name}`)
     const userProfile = await response.json();
-    console.log('json user profile:', userProfile);
     setUsers(userProfile);
   }
 
   async function getUploads() {
-    console.log('users Id :',users.id);
     const id = users.id;
     const response = await fetch(`http://localhost:3000/photos/uploaded/${id}`, {
       headers: ({
@@ -37,10 +33,7 @@ useEffect(() => {
       })
     })
     const json = await response.json();
-    console.log('user uploaded photos:', json);
-    console.log('user uploaded photos:', json[0]);
     setPhotos(json);
-    // getProfile();
 
   }
   return (

@@ -25,8 +25,6 @@ export default function LoginForm(props) {
         }
     }
     async function handleSubmit() {
-        console.log('UserName: ', userName)
-        console.log('Password: ', password)
         const json = {
             name: userName,
             password: password
@@ -36,10 +34,7 @@ export default function LoginForm(props) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(json),
         })
-        console.log('response:', res);
         const token = await res.json()
-        console.log('json Token', token)
-
         if(token.token) {
             navigate('/')
         }

@@ -22,15 +22,10 @@ const UploadProfile = () => {
       })
     })
     const userProfile = await response.json();
-    console.log('userProfile', userProfile);
     setUsers(userProfile);
   }
 
     async function handleSubmit() {
-        const jsonData = {
-            "name": image.name,
-        }
-        console.log('json:', jsonData)
         const formdata = new FormData()
         formdata.append("file", image, image.name);
         const url = `http://localhost:3000/profile/${users.picID}`
@@ -38,19 +33,6 @@ const UploadProfile = () => {
         let res = await axios.put(url, formdata);
         console.log('response', res);
         navigate("/user");
-
-        // const res = await fetch(`http://localhost:3000/profile/${users.picID}`, {
-        //     method: 'PUT',
-        //     headers: ({
-        //         // Authorization: 'Bearer ' +cookie,
-        //         'Content-Type': 'application/json' 
-        //       }),
-        //     body: JSON.stringify(formdata ),
-        // })
-        // const data = await res.json();
-        // console.log('data:', data);
-
-
     }
 
     return (

@@ -8,7 +8,6 @@ const Home = () => {
     const [like, setLike] = useState('');
 
     const cookie = document.cookie;
-    console.log('cookie', cookie);
 
     useEffect(() => {
         getData();
@@ -19,8 +18,6 @@ const Home = () => {
         setPhotos(json);
     }
     async function handleLike(id, liked) {
-       console.log('id:', id);
-       console.log('liked:', liked);
 
       const jsonData = {
         "like": liked,
@@ -33,7 +30,6 @@ const Home = () => {
             body: JSON.stringify(jsonData), 
         })
         const data = await res.json();
-        console.log('Updated data:', data);
         setLike(data)
     }
     return (

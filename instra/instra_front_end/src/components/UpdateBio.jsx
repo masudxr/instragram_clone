@@ -47,15 +47,9 @@ function UserBio() {
           })
         })
         const userProfile = await response.json();
-        console.log('userProfile', userProfile);
         setUsers(userProfile);
       }
     async function handleSubmit() {
-        console.log(userName)
-        console.log(email)
-        console.log(phone)
-        console.log(password)
-        console.log(address);
         if (userName == null) {
             userName = users.name
         }
@@ -78,9 +72,6 @@ function UserBio() {
             "address": address,
             "password": password,
         }
-        console.log('Updated json:', jsonData)
-        console.log(users.id)
-        // console.log({{users.id}})
 
        const res = await fetch(`http://localhost:3000/users/${users.id}`, {
             method: 'PUT',
@@ -91,7 +82,6 @@ function UserBio() {
             body: JSON.stringify(jsonData),
         })
         const data = await res.json();
-        console.log('data:', data);
         navigate("/user");
     }
     return (
