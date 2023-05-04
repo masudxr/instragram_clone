@@ -3,25 +3,22 @@ import NavBar from './NavBar';
 import './style.css';
 import {  Link } from "react-router-dom";
 
-
 const Home = () => {
     const [photos, setPhotos] = useState([]);
-    const [text, setText] = useState('like')
+    const [like, setLike] = useState('');
 
     const cookie = document.cookie;
+    console.log('cookie', cookie);
 
     useEffect(() => {
         getData();
-    }, [])
-
+    }, [like])
     async function getData() {
         const response = await fetch("http://localhost:3000/auth")
         const json = await response.json();
         setPhotos(json);
     }
     async function handleLike(id, liked) {
-      setText('liked');
-
        console.log('id:', id);
        console.log('liked:', liked);
 
@@ -37,6 +34,7 @@ const Home = () => {
         })
         const data = await res.json();
         console.log('Updated data:', data);
+        setLike(data)
     }
     return (
       <div className="container">
@@ -50,7 +48,7 @@ const Home = () => {
           <div className='column' key={photo.id}>
             <img src={`http://localhost:3000/${photo.name}`} height= '300' width='300' alt='img' />
             <div className="footer">
-                <button onClick={() => handleLike(photo.id, photo.like)} > {text} </button>
+                <button onClick={() => handleLike(photo.id, photo.like)} > like </button>
             </div>
             <p>{photo.like}  {"Likes"}</p>
             <p>Caption: {photo.description}</p>

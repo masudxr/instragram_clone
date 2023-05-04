@@ -19,25 +19,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-// import { SharpPipe } from './building.pipe';
-// import { FileSizeValidationPipe, SharpPipe } from './building.pipe';
 import { Observable, of } from 'rxjs';
 import { join } from 'path';
 import { UserAuthGuard } from 'src/auth/auth.user.guard';
-// import { extname } from 'path';
-// import { v4 as uuidv4 } from 'uuid';
-
-// const storage = {
-//   storage: diskStorage({
-//     destination: './uploads/proPic',
-//     filename: (req, file, cb) => {
-//       const filename: string =
-//         path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
-//       const extension: string = path.parse(file.originalname).ext;
-//       cb(null, `${filename}${extension}`);
-//     },
-//   }),
-// };
+import { ProfileService } from 'src/profile/profile.service';
 
 const storage = {
   storage: diskStorage({
@@ -50,7 +35,10 @@ const storage = {
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly _usersService: UsersService) {}
+  constructor(
+    private readonly _usersService: UsersService,
+    private readonly _profileService: ProfileService,
+  ) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', storage))
@@ -66,10 +54,19 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
+    console.log('hello User');
+    console.log(createUserDto);
     const user = await this._usersService.create(createUserDto);
+    console.log('user controller', user);
     if (!user) {
       throw new BadRequestException();
     }
+    const obj = {
+      name: 'profile.png',
+    };
+    const pro = await this._profileService.create(obj);
+    await this._profileService.profileWithUser(user.id, pro);
+
     return user;
   }
 

@@ -5,7 +5,7 @@ import './style.css';
 import {  Link } from "react-router-dom";
 
 
-export default function LoginForm() {
+export default function LoginForm(props) {
     const navigate = useNavigate();
     const [userName, setUserName] = useState(null);
     const [password, setPassword] = useState(null);
@@ -42,9 +42,8 @@ export default function LoginForm() {
 
         if(token.token) {
             navigate('/')
-        } else {
-            alert('No Records Existed!!')
         }
+        
     }
 
     return (

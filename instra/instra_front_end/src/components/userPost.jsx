@@ -1,66 +1,70 @@
-import React, {useState} from "react";
-// import { useNavigate } from "react-router-dom";
-
+import React, {useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const FileUpload = () => {
-//   const [users, setUsers] = useState([]);
-  const [photoName, setPhotoName] = useState(null);
-  const [photo, setPhoto] = useState(null);
-//   const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
+  const [photo, setPhoto] = useState(' ');
+  const [description, setDescrption] = useState(null);
+    const navigate = useNavigate();
 
+  useEffect(() => {
+    getProfile();
+}, [])
+
+const cookie = document.cookie;
+
+async function getProfile() {
+    const response = await fetch(`http://localhost:3000/auth/profile`, {
+      headers: ({
+        Authorization: 'Bearer ' +cookie
+      })
+    })
+    const userProfile = await response.json();
+    console.log('userProfile', userProfile);
+    setUsers(userProfile);
+  }
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
-        if (id === "photoName") {
-            setPhotoName(value);
-        }
-        if (id === "photo") {
-            setPhoto(value);
+        if (id === "description") {
+            console.log('get 2nd id', id);
+            setDescrption(value);
         }
     }
-    // const USERID = 9;
 
     async function uploadFile() {
-        console.log('photoName: ', photoName)
-        console.log('photo: ', photo)
-        const jsonData = {
-            "name": photoName,
-            "description": photo,
-            "like": 0,
-        }
-        console.log('json:', jsonData)
+        console.log('photoName: ', photo)
+        console.log('photo: ', description)
+        console.log('user name: ', users.name)
+        const formdata = new FormData ();
+        formdata.append('file', photo, photo.name);
+        formdata.append('body', description)
 
-        const res = await fetch("http://localhost:3000/photos", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(jsonData),
+        const url = `http://localhost:3000/photos`
+
+        let res = await axios.post(url, formdata, {
+          headers: ({
+            'Content-Type': 'multipart/form-data',
+            Authorization: 'Bearer ' +cookie
         })
-        // console.log('response:', res);
-        const data = await res.json();
-        console.log('data:', data);
-        // navigate("/user");
+        });
+        console.log('response', res.data);
+        navigate("/user");
     }
 
-    // const UserId = 9;
-
-    // async function getProfile() {
-    //     const response = await fetch(`http://localhost:3000/users/${UserId}`)
-    //     const json = await response.json();
-    //     console.log('json', json);
-    //     setUsers(json);
-    // }
     return (
         <div>
         <h2>Post New Photos</h2>
         <form>
-            <label name="photoName" >Choose Photos:</label>
-            <input type="file" value={photoName} onChange={(e) => handleInputChange(e)} multiple id="photoName" accept="image/*"/>
+            <label name="photo" >Choose Photos:</label>
+            <input type="file" name="file" onChange={(e) => setPhoto(e.target.files[0])} accept="image/*"/>
             <br/>
-            <label name="photo">Photo Decriptions </label>
-            <input type="text" value={photo} onChange={(e) => handleInputChange(e)} id="photo" placeholder="Photo Description" />
+            <label name="description">Photo Decriptions </label>
+            <input type="text" name="description" value={description} onChange={(e) => handleInputChange(e)} id="description" placeholder="Photo Description" />
             <br/>
             <div className="footer">
-            <button onClick={() => uploadFile()} type="submit" className="btn">Submit</button>
+            <h3 onClick={() => uploadFile()} type="submit" className="btn">Submit</h3>
             </div>
         </form>
         </div>

@@ -14,7 +14,7 @@ export class Photo {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;
 
-  @Column({ unique: true })
+  @Column({ nullable: false })
   name: string;
 
   @Column({ nullable: false })

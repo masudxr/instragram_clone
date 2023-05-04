@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { ProfileController } from './profile.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,7 +12,7 @@ import { UsersModule } from 'src/users/users.module';
 @Module({
   imports: [
     JwtModule,
-    UsersModule,
+    forwardRef(() => UsersModule),
     TypeOrmModule.forFeature([Profile]),
     MulterModule.register({
       dest: './uploads/profile',

@@ -11,6 +11,7 @@ import {
   // Res,
   UseGuards,
   Put,
+  BadRequestException,
   // BadRequestException,
 } from '@nestjs/common';
 import { PhotosService } from './photos.service';
@@ -39,22 +40,29 @@ export class PhotosController {
   ) {}
 
   @Post()
-  // @UseGuards(UserAuthGuard)
+  @UseGuards(UserAuthGuard)
   @UseInterceptors(FileInterceptor('file', storage))
-  async uploadfile(
-    @UploadedFile() file: Express.Multer.File,
-    @Req() req,
-    @Body() body,
-  ) {
-    body.name = file.originalname;
-    body.like = 0;
-    // const checkUser = await this._photosService.reqUser(req);
-    // if (checkUser) {
-    const photos = await this._photosService.create(body);
-    await this._photosService.photosWithUser(photos);
-    return photos;
-    // }
-    // throw new BadRequestException();
+  async uploadfile(@UploadedFile() file: Express.Multer.File, @Req() req) {
+    console.log('upload photos by users');
+
+    console.log('req file', req.file);
+    console.log('req body', req.body.body);
+    const obj = {
+      name: req.file.filename,
+      description: req.body.body,
+      like: 0,
+    };
+
+    const checkUser = await this._photosService.reqUser(req);
+    console.log('check user:', checkUser);
+    if (checkUser) {
+      const photos = await this._photosService.create(obj);
+      console.log('uploading photos:', photos);
+
+      await this._photosService.photosWithUser(checkUser, photos);
+      return photos;
+    }
+    throw new BadRequestException();
   }
 
   // @Get(':picName')
@@ -141,6 +149,10 @@ export class PhotosController {
     // console.log('Update info', updatePhotoDto);
     // console.log('get id from frontend:', id);
     const user = await this._photosService.reqUser(req);
-    return await this._photosService.update(id, updatePhotoDto, user);
+    const liked = await this._photosService.update(id, updatePhotoDto, user);
+    console.log('like', liked);
+    return {
+      like: liked,
+    };
   }
 }

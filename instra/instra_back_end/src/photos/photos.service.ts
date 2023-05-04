@@ -19,18 +19,13 @@ export class PhotosService {
   ) {}
 
   async create(createPhotoDto: CreatePhotoDto) {
-    // console.log('DTO:', createPhotoDto);
-    return await this._photoRepository.save(createPhotoDto);
+    console.log('DTO:', createPhotoDto);
+    const photo = await this._photoRepository.save(createPhotoDto);
+    console.log('photos:', photo);
+    return photo;
   }
 
-  async photosWithUser(pro: any) {
-    // const userProfile = await this._userRepository.findOne({
-    //   where: {
-    //     id: user.id,
-    //   },
-    // });
-    // console.log('user inside service :', userProfile);
-    // console.log('pro id', pro.id);
+  async photosWithUser(user: any, pro: any) {
     const profile = await this._photoRepository.findOne({
       relations: {
         user: true,
@@ -40,7 +35,7 @@ export class PhotosService {
       },
     });
     // console.log('new profile details:', profile);
-    // profile.user = userProfile;
+    profile.user = user;
     await this._photoRepository.save(profile);
   }
 
@@ -106,16 +101,19 @@ export class PhotosService {
           });
           photo.like = photo.like - 1;
           await this._photoRepository.save(photo);
+          return 'failed';
         } else {
           photo.like = photo.like + 1;
           photo.users.push(user);
           await this._photoRepository.save(photo);
+          return 'success';
         }
       }
     } else {
       photo.like = photo.like + 1;
       photo.users.push(user);
       await this._photoRepository.save(photo);
+      return 'success';
     }
   }
 

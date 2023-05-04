@@ -16,7 +16,7 @@ export class ProfileService {
   ) {}
 
   async create(createProfileDto) {
-    const profile = await this._profileRepository.create({
+    const profile = this._profileRepository.create({
       ...createProfileDto,
     });
     console.log(profile);
