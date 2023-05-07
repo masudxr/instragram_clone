@@ -1,58 +1,59 @@
 import React, {useEffect, useState} from "react";
-import NavBar from './NavBar';
-import {useLocation} from 'react-router-dom';
+import NavBar from './NavBar/NavBar';
+import { Link } from "react-router-dom";
 
 
-const UsersProfile = () => {
+const User = () => {
   const [users, setUsers] = useState([]);
   const [photos, setPhotos] = useState([]);
 
   const cookie = document.cookie;
-const location = useLocation()
-const Name = location.state.name
 
   useEffect(() => {
     getProfile();
-}, [])
 
-useEffect(() => {
-  getUploads()
-}, [users])
+}, )
 
   async function getProfile() {
-    const response = await fetch(`http://localhost:3000/users/profile/${Name}`)
-    const userProfile = await response.json();
-    setUsers(userProfile);
+    const response = await fetch(`http://localhost:3000/auth/profile`, {
+      headers: ({
+        Authorization: 'Bearer ' +cookie
+      })
+    })
+    const json = await response.json();
+    setUsers(json);
+    getUploads()
   }
-
   async function getUploads() {
-    const id = users.id;
-    const response = await fetch(`http://localhost:3000/photos/uploaded/${id}`, {
+    const response = await fetch(`http://localhost:3000/photos/user`, {
       headers: ({
         Authorization: 'Bearer ' +cookie
       })
     })
     const json = await response.json();
     setPhotos(json);
-
   }
   return (
     <div className="container">
       <NavBar />
       <br/>
 
-      <h2>Welcome to {users.name}'s Profile</h2>
+      <h2>Welcome to {users.name}'s' Profile</h2>
       <br/>
       <div>
       <ul>
-          <h2>User Name: {users.name}</h2>
-          {/* <img src={`http://localhost:3000/profile/${users.profile.name}`} height= '300' width='300' alt='img' /> */}
-          <h1>Contact: {users.email}</h1>
+          <h2>Name: {users.name}</h2>
+          <img src={`http://localhost:3000/profile/${users.pic}`} height= '300' width='300' alt='img' />
+          <Link to="/upload">Upload Profile </Link>
+          <h1>Email: {users.email}</h1>
+          <h1>Phone: {users.phone}</h1>
       </ul>
       </div>
+      <Link to="/updateBio">Update Info </Link>
+      <Link to="/post">New Post</Link>
       <br/>
       <div>
-        <h1>Uploaded {users.name}'s More Photos !!</h1>
+        <h1>Uploaded Users All Photos !!</h1>
         {photos.length > 0 && (
         <ul>
         {photos.map((photo) => (
@@ -70,4 +71,4 @@ useEffect(() => {
   );
 };
 
-export default UsersProfile;
+export default User;

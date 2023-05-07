@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from './header';
 import { useNavigate } from "react-router-dom";
-import './style.css';
+import '../style.css';
 import {  Link } from "react-router-dom";
 
 

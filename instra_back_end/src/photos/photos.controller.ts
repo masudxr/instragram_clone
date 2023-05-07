@@ -93,8 +93,9 @@ export class PhotosController {
 
   @UseGuards(UserAuthGuard)
   @Get('uploaded/:id')
-  async UsersUploadedPhotos(@Param('id') id: number) {
+  async UsersUploadedPhotos(@Param('id') id: number, @Req() req) {
     console.log('Hello Bondu!');
+    console.log('req:', req);
     const userPhoto = await this._photosService.findAll(id);
     return userPhoto;
   }

@@ -1,6 +1,4 @@
 import './App.css';
-import LoginForm from './components/login';
-import RegistrationForm from './components/registrationForm';
 import Home from './components/home';
 import User from './components/profile';
 import LogOut from './components/userLogOut';
@@ -9,6 +7,8 @@ import FileUpload from './components/userPost';
 import UserBio from './components/UpdateBio';
 import { Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import UsersProfile from './components/userProfile';
+import LoginForm from './components/auth/login';
+import RegistrationForm from './components/auth/registrationForm';
 
 
 export default function App() {

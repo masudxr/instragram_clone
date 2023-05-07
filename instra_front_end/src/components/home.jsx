@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import NavBar from './NavBar';
+import NavBar from './NavBar/NavBar';
 import './style.css';
 import {  Link } from "react-router-dom";
+// import HandleLike from "./HandleLike";
+
 
 const Home = () => {
     const [photos, setPhotos] = useState([]);
@@ -9,9 +11,11 @@ const Home = () => {
 
     const cookie = document.cookie;
 
+
     useEffect(() => {
         getData();
     }, [like])
+
     async function getData() {
         const response = await fetch("http://localhost:3000/auth")
         const json = await response.json();
